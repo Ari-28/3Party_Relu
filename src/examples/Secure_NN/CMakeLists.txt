@@ -1,5 +1,3 @@
-add_subdirectory(debug)
-
 add_subdirectory(debug_2)
 
 add_executable(3PC_Relu0 3PC_Relu0.cpp)

@@ -1624,58 +1624,118 @@ void read_shares(int choice, std::vector<uint8_t>&message, const Options& option
       exit(1);
     }
 
-    std::uint64_t rows, col;
-    try {
-      file >> rows >> col;
-      std::cerr << rows << " " << col << " " << std::endl;
-    }
-    catch (std::ifstream::failure e) {
-      std::cerr << "Error while reading rows and columns from input shares file.\n";
-      exit(1);
-    }
+    std::uint64_t channels, rows, col;
 
-    if (file.eof()) {
-      std::cerr << "Input shares file doesn't contain rows and columns." << std::endl;
-      exit(1);
-    }
-
-    auto k = 0;
-    adduint64(rows, message);
-    adduint64(col, message);
-    xpublic.push_back(rows);
-    xpublic.push_back(col);
-    xsecret.push_back(rows);
-    xsecret.push_back(col);
-
-    while (k < rows * col) {
-      std::uint64_t public_share, secret_share;
+    if (options.layer_id == 1) {
       try {
-        file >> public_share;
-        xpublic.push_back(public_share);
-        file >> secret_share;
-        xsecret.push_back(secret_share);
+        file >> channels >> rows >> col;
+        std::cerr << channels << " " << rows << " " << col << " " << std::endl;
       }
       catch (std::ifstream::failure e) {
-        std::cerr << "Error while reading the input shares.\n";
+        std::cerr << "Error while reading rows and columns from input shares file.\n";
         exit(1);
       }
+
       if (file.eof()) {
-        std::cerr << "Input shares file contains less number of elements." << std::endl;
+        std::cerr << "Input shares file doesn't contain rows and columns." << std::endl;
         exit(1);
       }
-      adduint64(secret_share, message);
-      k++;
-    }
-    if (k == rows * col) {
-      std::uint64_t num;
-      file >> num;
-      if (!file.eof()) {
-        std::cerr << "File contains more number of elements." << std::endl;
+
+      std::uint64_t imageRows = channels * rows * col;
+      std::uint64_t imageCols = 1;
+
+      auto k = 0;
+      adduint64(imageRows, message);
+      adduint64(imageCols, message);
+      xpublic.push_back(imageRows);
+      xpublic.push_back(imageCols);
+      xsecret.push_back(imageRows);
+      xsecret.push_back(imageCols);
+
+      while (k < imageRows * imageCols) {
+        std::uint64_t public_share, secret_share;
+        try {
+          file >> public_share;
+          xpublic.push_back(public_share);
+          file >> secret_share;
+          xsecret.push_back(secret_share);
+        }
+        catch (std::ifstream::failure e) {
+          std::cerr << "Error while reading the input shares.\n";
+          exit(1);
+        }
+        if (file.eof()) {
+          std::cerr << "Input shares file contains less number of elements." << std::endl;
+          exit(1);
+        }
+        adduint64(secret_share, message);
+        k++;
+      }
+      if (k == imageRows * imageCols) {
+        std::uint64_t num;
+        file >> num;
+        if (!file.eof()) {
+          std::cerr << "File contains more number of elements." << std::endl;
+          exit(1);
+        }
+      }
+      file.close();
+      std::cout << xpublic.size() << " " << xsecret.size() << std::endl;
+    } else {
+      try {
+        file >> rows >> col;
+        std::cerr << rows << " " << col << " " << std::endl;
+      }
+      catch (std::ifstream::failure e) {
+        std::cerr << "Error while reading rows and columns from input shares file.\n";
         exit(1);
       }
+
+      if (file.eof()) {
+        std::cerr << "Input shares file doesn't contain rows and columns." << std::endl;
+        exit(1);
+      }
+
+      auto k = 0;
+      adduint64(rows, message);
+      adduint64(col, message);
+      xpublic.push_back(rows);
+      xpublic.push_back(col);
+      xsecret.push_back(rows);
+      xsecret.push_back(col);
+
+      while (k < rows * col) {
+        std::uint64_t public_share, secret_share;
+        try {
+          file >> public_share;
+          xpublic.push_back(public_share);
+          file >> secret_share;
+          xsecret.push_back(secret_share);
+        }
+        catch (std::ifstream::failure e) {
+          std::cerr << "Error while reading the input shares.\n";
+          exit(1);
+        }
+        if (file.eof()) {
+          std::cerr << "Input shares file contains less number of elements." << std::endl;
+          exit(1);
+        }
+        adduint64(secret_share, message);
+        k++;
+      }
+      if (k == rows * col) {
+        std::uint64_t num;
+        file >> num;
+        if (!file.eof()) {
+          std::cerr << "File contains more number of elements." << std::endl;
+          exit(1);
+        }
+      }
+      file.close();
+      std::cout << xpublic.size() << " " << xsecret.size() << std::endl;
     }
-    file.close();
-    std::cout << xpublic.size() << " " << xsecret.size() << std::endl;
+
+
   }
 }
 

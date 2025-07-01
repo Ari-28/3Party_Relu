@@ -213,8 +213,12 @@ int main(int argc, char* argv[]) {
 
   int num_elements = channels * rows * columns;
   std::cout << "num elements: " << num_elements << "\n";
+
   Shares cs0_data[num_elements];
-  Shares cs1_data[num_elements];
+  // Shares cs1_data[num_elements];
+  Shares* cs1_data = new Shares[num_elements];
+
+  std::cerr << "Debug 1" << std::endl;
   // Reading contents from image file
   std::ifstream image_file;
   try {
@@ -236,6 +240,7 @@ int main(int argc, char* argv[]) {
     image_file.close();
     return EXIT_FAILURE;
   }
+    std::cerr << "Debug 2" << std::endl;
   for (int id = 0; id < 2; id++) {
     boost::asio::io_service io_service;
     tcp::socket socket(io_service);

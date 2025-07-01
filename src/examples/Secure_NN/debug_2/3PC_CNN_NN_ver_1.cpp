@@ -533,7 +533,7 @@ int main(int argc, char* argv[]) {
   int WriteToFiles = 1;
 
   if (!options.has_value()) {
-    std::cerr<<"No options given.\n";
+    std::cerr << "No options given.\n";
     return EXIT_FAILURE;
   }
  
@@ -570,26 +570,26 @@ int main(int argc, char* argv[]) {
     // Read ABY2.0 Weight and Image Shares from the input config file
     std::vector<std::uint8_t> weightSharesMessage, imageSharesMessage;
 
-    if (layer_id != 1 && layer_type == 0 && layer_types[layer_id - 2] == 1) {
+    if ((layer_id != 1 && layer_type == 0 && layer_types[layer_id - 2] == 1)) {
       ConvToMatMulFlag = true;
     } else {
       ConvToMatMulFlag = false;
     }
 
     if (layer_type == 1) {
-        read_shares(1, layer_id, weightSharesMessage, options.value(), ConvToMatMulFlag);
-        read_shares(2, layer_id, imageSharesMessage, options.value(), ConvToMatMulFlag);
+      read_shares(1, layer_id, weightSharesMessage, options.value(), ConvToMatMulFlag);
+      read_shares(2, layer_id, imageSharesMessage, options.value(), ConvToMatMulFlag);
 
-        std::cout << "Shares succesfully read." << std::endl;
+      std::cout << "Shares succesfully read." << std::endl;
 
-        ConvolutionReluLayer(weightSharesMessage, imageSharesMessage, layer_id);
+      ConvolutionReluLayer(weightSharesMessage, imageSharesMessage, layer_id);
 
-        weightSharesMessage.clear();
-        imageSharesMessage.clear();
+      weightSharesMessage.clear();
+      imageSharesMessage.clear();
 
-        ResetFlags(layer_type);
+      ResetFlags(layer_type);
 
-        std::cerr << "Layer " << layer_id << ": Convolution and ReLU done." << std::endl;
+      std::cerr << "Layer " << layer_id << ": Convolution and ReLU done." << std::endl;
     } else if (layer_type == 0 && layer_id != numberOfLayers) {
       read_shares(1, layer_id, weightSharesMessage, options.value(), ConvToMatMulFlag);
       read_shares(2, layer_id, imageSharesMessage, options.value(), ConvToMatMulFlag);
@@ -617,134 +617,66 @@ int main(int argc, char* argv[]) {
       weightSharesMessage.clear();
       imageSharesMessage.clear();
 
-      // Reset flags to see if no data is being stored
-      // ResetFlags(layer_type);
-
       std::cerr << "Layer " << layer_id << ": Matrix multiplication done." << std::endl;
     }
   }
 
-  //  // Write the ReLU shares computed at Party 0 to ReLU output file.
-  //  std::ofstream ReluOutputFile;
-  //  try {
-  //    ReluOutputFile.open(options->output_share_file);
-  //    if (!ReluOutputFile) {
-  //      std::cerr << "Error: Error opening ReLU output file." << std::endl;
-  //    }
-  //  } catch (std::exception& error) {
-  //    std::cerr << "Error: Error opening ReLU output share file: " << error.what() << std::endl;
-  //  }
- 
-  //  std::size_t testABYRows = A_MatMul_Public_Shares[0];
-  //  std::size_t testABYCols = A_MatMul_Public_Shares[1];
-
-  // ReluOutputFile << testABYRows <<  " " << testABYCols << std::endl;
-  // //  for (int index = 2; index < A_MatMul_Public_Shares.size(); index++) {
-  // //    std::cerr << A_MatMul_Public_Shares[index] << " " << A_MatMul_Private_Shares[index] << std::endl;
-  // //  }
-
-  //  for (int index = 2; index < A_MatMul_Public_Shares.size(); index++) {
-  //    ReluOutputFile << A_MatMul_Public_Shares[index] << " " << A_MatMul_Private_Shares[index] << std::endl;
-  //  }
-
-
-  // // std::size_t testABYChannels = Output_Public_Shares[0];
-  // // std::size_t testABYRows = Output_Public_Shares[0];
-  // // std::size_t testABYCols = Output_Public_Shares[1];
- 
-  // //  // Verifying that the dimensions of the original shares and the ABY2.0 ReLU shares match
-  // //  if (testABYRows * testABYCols != output_rows * output_columns * output_chnls) {
-  // //    std::cerr << "Dimensions of the arithmetic shares and the ABY shares do not match." << std::endl;
-  // //    return EXIT_FAILURE;
-  // //  }
- 
-  // //  ReluOutputFile << output_chnls << " " << output_rows <<  " " << output_columns << std::endl;
-  // //  for (int index = 3; index < Output_Public_Shares.size(); index++) {
-  // //    ReluOutputFile << Output_Public_Shares[index] << " " << Output_Private_Shares[index] << std::endl;
-  // //  }
- 
-  // //  ReluOutputFile.close();
-
-  // // ReluOutputFile << testABYRows <<  " " << testABYCols << std::endl;
-  // // for (int index = 2; index < Output_Public_Shares.size(); index++) {
-  // //   ReluOutputFile << Output_Public_Shares[index] << " " << Output_Private_Shares[index] << std::endl;
-  // // }
-
-  // ReluOutputFile.close();
- 
-  // //  std::string dimensionsFilepath = options->current_path + "/server1/" + "cnn_outputshare_" + std::to_string(my_id);
- 
-  // //  ReluOutputFile.open(dimensionsFilepath);
-  // //  try {
-  // //    if (!ReluOutputFile) {
-  // //      std::cerr << "Error: Error opening ReLU output file." << std::endl;
-  // //    }
-  // //  }
-  // //  catch (std::exception& e) {
-  // //    std::cerr << "Error: Error opening ReLU output share file:" << e.what() << std::endl;
-  // //  }
- 
-  // //  ReluOutputFile << output_chnls * output_rows * output_columns << " " << 1 << std::endl;
-  // //  std::cerr << output_chnls * output_rows * output_columns << " " << 1 << std::endl;
-  // //  ReluOutputFile.close();
-
-    // Write the ReLU shares computed at Party 0 to ReLU output file.
-    std::ofstream ReluOutputFile;
+  // Write the ReLU shares computed at Party 0 to ReLU output file.
+  std::ofstream ReluOutputFile;
+  try {
+    ReluOutputFile.open(options->output_share_file);
+    if (!ReluOutputFile) {
+      std::cerr << "Error: Error opening ReLU output file." << std::endl;
+    }
+  } catch (std::exception& error) {
+    std::cerr << "Error: Error opening ReLU output share file: " << error.what() << std::endl;
+  }
+  
+  if (layer_types[numberOfLayers - 1] == 0) {
+    std::size_t testABYRows = A_MatMul_Public_Shares[0];
+    std::size_t testABYCols = A_MatMul_Public_Shares[1];
+  
+    ReluOutputFile << testABYRows <<  " " << testABYCols << std::endl;
+    for (int index = 2; index < A_MatMul_Public_Shares.size(); index++) {
+      ReluOutputFile << A_MatMul_Public_Shares[index] << " " << A_MatMul_Private_Shares[index] << std::endl;
+    }
+  
+    ReluOutputFile.close();
+  
+  } else if (layer_types[numberOfLayers - 1] == 1) {
+    std::size_t testABYChannels = Output_Public_Shares[0];
+    std::size_t testABYRows = Output_Public_Shares[0];
+    std::size_t testABYCols = Output_Public_Shares[1];
+  
+    // Verifying that the dimensions of the original shares and the ABY2.0 ReLU shares match
+    if (testABYChannels * testABYRows * testABYCols != output_rows * output_columns * output_chnls) {
+      std::cerr << "Dimensions of the arithmetic shares and the ABY shares do not match." << std::endl;
+      return EXIT_FAILURE;
+    }
+  
+    ReluOutputFile << output_chnls << " " << output_rows <<  " " << output_columns << std::endl;
+    for (int index = 3; index < Output_Public_Shares.size(); index++) {
+      ReluOutputFile << Output_Public_Shares[index] << " " << Output_Private_Shares[index] << std::endl;
+    }
+  
+    ReluOutputFile.close();
+  
+    std::string dimensionsFilepath = options->current_path + "/server0/" + "cnn_outputshare_" + std::to_string(my_id);
+  
+    ReluOutputFile.open(dimensionsFilepath);
     try {
-      ReluOutputFile.open(options->output_share_file);
       if (!ReluOutputFile) {
         std::cerr << "Error: Error opening ReLU output file." << std::endl;
       }
-    } catch (std::exception& error) {
-      std::cerr << "Error: Error opening ReLU output share file: " << error.what() << std::endl;
     }
-  
-    if (layer_types[numberOfLayers - 1] == 0) {
-      std::size_t testABYRows = A_MatMul_Public_Shares[0];
-      std::size_t testABYCols = A_MatMul_Public_Shares[1];
-  
-      ReluOutputFile << testABYRows <<  " " << testABYCols << std::endl;
-      for (int index = 2; index < A_MatMul_Public_Shares.size(); index++) {
-        ReluOutputFile << A_MatMul_Public_Shares[index] << " " << A_MatMul_Private_Shares[index] << std::endl;
-      }
-  
-      ReluOutputFile.close();
-  
-    } else if (layer_types[numberOfLayers - 1] == 1) {
-      std::size_t testABYChannels = Output_Public_Shares[0];
-      std::size_t testABYRows = Output_Public_Shares[0];
-      std::size_t testABYCols = Output_Public_Shares[1];
-  
-      // Verifying that the dimensions of the original shares and the ABY2.0 ReLU shares match
-      if (testABYChannels * testABYRows * testABYCols != output_rows * output_columns * output_chnls) {
-        std::cerr << "Dimensions of the arithmetic shares and the ABY shares do not match." << std::endl;
-        return EXIT_FAILURE;
-      }
-  
-      ReluOutputFile << output_chnls << " " << output_rows <<  " " << output_columns << std::endl;
-      for (int index = 3; index < Output_Public_Shares.size(); index++) {
-        ReluOutputFile << Output_Public_Shares[index] << " " << Output_Private_Shares[index] << std::endl;
-      }
-  
-      ReluOutputFile.close();
-  
-      std::string dimensionsFilepath = options->current_path + "/server0/" + "cnn_outputshare_" + std::to_string(my_id);
-  
-      ReluOutputFile.open(dimensionsFilepath);
-      try {
-        if (!ReluOutputFile) {
-          std::cerr << "Error: Error opening ReLU output file." << std::endl;
-        }
-      }
-      catch (std::exception& e) {
-        std::cerr << "Error: Error opening ReLU output share file:" << e.what() << std::endl;
-      }
+    catch (std::exception& e) {
+      std::cerr << "Error: Error opening ReLU output share file:" << e.what() << std::endl;
+    }
     
-      ReluOutputFile << output_chnls * output_rows * output_columns << " " << 1 << std::endl;
-      ReluOutputFile.close();
-    }
+    ReluOutputFile << output_chnls * output_rows * output_columns << " " << 1 << std::endl;
+    ReluOutputFile.close();
+  }
   
-
   comm_layer->shutdown();
   
   testMemoryOccupied(WriteToFiles, my_id, options->current_path);

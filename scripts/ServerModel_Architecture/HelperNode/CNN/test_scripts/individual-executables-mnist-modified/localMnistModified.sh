@@ -48,7 +48,7 @@ echo '{
     "image_id": 1111,
     "image_rows": 28,
     "channels": 1,
-    "layer_types": [1,1,0,0]
+    "layer_types": [0,0,0,0]
 }' > ${BASE_DIR}/config_files/smpc-helpernode-config.json
 
 
@@ -74,16 +74,16 @@ echo '{
     "no_of_layers" : 4,
     "Layers" : {
         "1" : {
-            "Weights" : {"type": "CN", "kernels": 5, "channels": 1, "rows" : 5, "columns" : 5, "pads": [1,1,0,0], "strides": [2,2], "file_name" : "2CN/W1.csv"}, 
-            "Bias" : {"rows" : 5, "columns" : 1, "file_name" : "2CN/B1.csv"}},
+            "Weights" : {"rows" : 100, "columns" : 784, "file_name" : "4CN/W1.csv"},
+            "Bias" : {"rows" : 100, "columns" : 1, "file_name" : "4CN/B3.csv"}},
         "2" : {
-            "Weights" : {"type": "CN", "kernels": 3, "channels": 5, "rows" : 4, "columns" : 4, "pads":[1,1,0,0], "strides": [2,2], "file_name" :"2CN/W2.csv"},
-            "Bias" : {"rows": 3, "columns" : 1, "file_name": "2CN/B2.csv"}},
+            "Weights" : {"rows" : 100, "columns" : 108, "file_name" : "4CN/W3.csv"},
+            "Bias" : {"rows" : 100, "columns" : 1, "file_name" : "4CN/B3.csv"}},
         "3" : {
-            "Weights" : {"rows" : 100, "columns" : 108, "file_name" : "2CN/W3.csv"},
-            "Bias" : {"rows" : 100, "columns" : 1, "file_name" : "2CN/B3.csv"}},
+            "Weights" : {"rows" : 100, "columns" : 108, "file_name" : "4CN/W3.csv"},
+            "Bias" : {"rows" : 100, "columns" : 1, "file_name" : "4CN/B3.csv"}},
         "4" : {
-            "Weights" : {"rows" : 10, "columns" : 100, "file_name" : "2CN/W4.csv"},
-            "Bias" : {"rows" : 10, "columns" : 1, "file_name" : "2CN/B4.csv"}}
+            "Weights" : {"rows" : 10, "columns" : 100, "file_name" : "4CN/W4.csv"},
+            "Bias" : {"rows" : 10, "columns" : 1, "file_name" : "4CN/B4.csv"}}
     }
 }' > ${BASE_DIR}/config_files/model_helpernode_config.json

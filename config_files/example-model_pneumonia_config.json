@@ -1,0 +1,35 @@
+{
+    "no_of_layers" : 10,
+    "Layers" : {
+        "1" : { 
+            "Weights" : {"type": "CN", "kernels": 16, "channels": 3, "rows" : 3, "columns" : 3, "pads": [0,0,0,0], "strides": [1,1], "file_name" : "Pneumonia/W1.csv"}, 
+            "Bias" : {"rows" : 16, "columns" : 1, "file_name" : "Pneumonia/B1.csv"}},
+        "2" : {
+            "Weights" : {"type": "CN", "kernels": 32, "channels": 16, "rows" : 3, "columns" : 3, "pads": [0,0,0,0], "strides": [1,1], "file_name" : "Pneumonia/W2.csv"}, 
+            "Bias" : {"rows" : 32, "columns" : 1, "file_name" : "Pneumonia/B2.csv"}},
+        "3" : {
+            "Weights" : {"type": "CN", "kernels": 64, "channels": 32, "rows" : 5, "columns" : 5, "pads": [0,0,0,0], "strides": [1,1], "file_name" : "Pneumonia/W3.csv"}, 
+            "Bias" : {"rows" : 64, "columns" : 1, "file_name" : "Pneumonia/B3.csv"}},
+        "4" : {
+            "Weights" : {"type": "CN", "kernels": 128, "channels": 64, "rows" : 5, "columns" : 5, "pads": [0,0,0,0], "strides": [1,1], "file_name" : "Pneumonia/W4.csv"}, 
+            "Bias" : {"rows" : 128, "columns" : 1, "file_name" : "Pneumonia/B4.csv"}},
+        "5" : {
+            "Weights" : {"type": "CN", "kernels": 128, "channels": 128, "rows" : 5, "columns" : 5, "pads": [0,0,0,0], "strides": [1,1], "file_name" : "Pneumonia/W5.csv"}, 
+            "Bias" : {"rows" : 128, "columns" : 1, "file_name" : "Pneumonia/B5.csv"}},
+        "6" : {
+            "Weights" : {"rows" : 28800, "columns" : 1024, "file_name" : "Pneumonia/W6.csv"}, 
+            "Bias" : {"rows" : 1024, "columns" : 1, "file_name" : "Pneumonia/B6.csv"}},
+        "7" : {
+            "Weights" : {"rows" : 1024, "columns" : 512, "file_name" : "Pneumonia/W7.csv"}, 
+            "Bias" : {"rows" : 512, "columns" : 1, "file_name" : "Pneumonia/B7.csv"}},
+        "8" : {
+            "Weights" : {"rows" : 512, "columns" : 256, "file_name" : "Pneumonia/W8.csv"}, 
+            "Bias" : {"rows" : 256, "columns" : 1, "file_name" : "Pneumonia/B8.csv"}},
+        "9" : {
+            "Weights" : {"rows" : 256, "columns" : 64, "file_name" : "Pneumonia/W9.csv"}, 
+            "Bias" : {"rows" : 64, "columns" : 1, "file_name" : "Pneumonia/B9.csv"}},
+        "10" : {
+            "Weights" : {"rows" : 1 , "columns" : 64, "file_name" : "Pneumonia/W10.csv"}, 
+            "Bias" : {"rows" : 1, "columns" : 1, "file_name" : "Pneumonia/B10.csv"}}
+    }
+}

@@ -1191,11 +1191,7 @@ int ReLU(std::vector<std::uint64_t>& a_L_0, std::vector<std::uint64_t>& a_Relu_0
 
   boost::this_thread::sleep_for(boost::chrono::milliseconds(400));
 
-  std::cerr << "a_L_ABY_private.size(): " << a_L_ABY_private.size() << " " << a_L_ABY_private[0] << " " << a_L_ABY_private[1] << std::endl;
-  std::cerr << "a_DRelu_ABY_private.size(): " << a_DRelu_ABY_private.size() << " " << a_DRelu_ABY_private[0] << " " << a_DRelu_ABY_private[1] << std::endl;
-
    //%%%%% Sending a_L_ABY shares from my party to other party nad woaut for message from other party 
-  std::cerr << "Sending a_L_ABY Public shares message to Server: " << 1-my_id << " Message size : "<< a_L_msg_ABY_shares.size() << "\n";
   try{
       comm_layer->send_message(1-my_id, a_L_msg_ABY_shares);
     }
@@ -1214,7 +1210,6 @@ int ReLU(std::vector<std::uint64_t>& a_L_0, std::vector<std::uint64_t>& a_Relu_0
   ParallelAddition(a_L_ABY_public, Relu_x_temp_vec, a_L_ABY_public, 2);
 
   //%%%%% Sending a_DRelu_ABY shares from my party to other party nad woaut for message from other party 
-  std::cerr << "Sending a_DRelu_ABY Public shares message to Server : " << 1-my_id << " Message size : "<< a_DRelu_msg_ABY_shares.size() << "\n";
   try{
       comm_layer->send_message(1-my_id, a_DRelu_msg_ABY_shares);
     }
@@ -1918,10 +1913,10 @@ void read_shares(int choice, int layer_id, std::vector<uint8_t>&message, const O
         exit(1);
       }
   
-      std::uint64_t row, col;
+      std::uint64_t channel, row, col;
       try {
-        file >> row >> col;
-        std::cerr << row << " " << col << " " << std::endl;
+        file >> channel >> row >> col;
+        std::cerr << channel << " " << row << " " << col << " " << std::endl;
       }
       catch (std::ifstream::failure e) {
         std::cerr << "Error while reading rows and columns from input shares file.\n";
@@ -1932,30 +1927,19 @@ void read_shares(int choice, int layer_id, std::vector<uint8_t>&message, const O
         std::cerr << "Input shares file doesn't contain rows and columns." << std::endl;
         exit(1);
       }
+  
+      std::uint64_t imageRows = channel * row * col;
+      std::uint64_t imageCols = 1;
 
-      try {
-        file >> row >> col;
-        std::cerr << row << " " << col << " " << std::endl;
-      }
-      catch (std::ifstream::failure e) {
-        std::cerr << "Error while reading rows and columns from input shares file.\n";
-        exit(1);
-      }
-  
-      if (file.eof()) {
-        std::cerr << "Input shares file doesn't contain rows and columns." << std::endl;
-        exit(1);
-      }
-  
       auto k = 0;
-      adduint64(row, message);
-      adduint64(col, message);
-      xpublic.push_back(row);
-      xpublic.push_back(col);
-      xsecret.push_back(row);
-      xsecret.push_back(col);
+      adduint64(imageRows, message);
+      adduint64(imageCols, message);
+      xpublic.push_back(imageRows);
+      xpublic.push_back(imageCols);
+      xsecret.push_back(imageRows);
+      xsecret.push_back(imageCols);
   
-      while (k < row * col) {
+      while (k < imageRows * imageCols) {
         std::uint64_t public_share, secret_share;
         try {
           file >> public_share;
@@ -1974,7 +1958,7 @@ void read_shares(int choice, int layer_id, std::vector<uint8_t>&message, const O
         adduint64(secret_share, message);
         k++;
       }
-      if (k == row * col) {
+      if (k == imageRows * imageCols) {
         std::uint64_t num;
         file >> num;
         if (!file.eof()) {
@@ -2383,10 +2367,8 @@ int MatrixMultiplicationReluLayer(std::vector<std::uint8_t>& weightSharesMessage
 
 int MatrixMultiplicationLayer(std::vector<std::uint8_t>& weightSharesMessage, std::vector<std::uint8_t>& imageSharesMessage, int layer_id) {
 
-  std::cerr << "Helper node. " << std::endl;
   HelperNodeSyncFunction();
 
-  std::cerr << "Matrix mult. " << std::endl;
   MatrixMultAddition(weightSharesMessage, imageSharesMessage);
 
   std::cerr << "Matrix addition and multiplication done." << std::endl;

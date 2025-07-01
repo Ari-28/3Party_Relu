@@ -43,12 +43,12 @@ echo '{
     "relu1_port_inference": 4013,
     "cs0_port_image_receiver": 4014,
     "cs1_port_image_receiver": 4015,
-    "number_of_layers": 4,
+    "number_of_layers": 5,
     "fractional_bits": 13,
     "image_id": 1111,
     "image_rows": 28,
     "channels": 1,
-    "layer_types": [1,1,0,0]
+    "layer_types": [0,0,0,0,0]
 }' > ${BASE_DIR}/config_files/smpc-helpernode-config.json
 
 
@@ -71,19 +71,22 @@ echo '{
 
 # Update model_helpernode_config.json
 echo '{
-    "no_of_layers" : 4,
+    "no_of_layers" : 5,
     "Layers" : {
         "1" : {
-            "Weights" : {"type": "CN", "kernels": 5, "channels": 1, "rows" : 5, "columns" : 5, "pads": [1,1,0,0], "strides": [2,2], "file_name" : "2CN/W1.csv"}, 
-            "Bias" : {"rows" : 5, "columns" : 1, "file_name" : "2CN/B1.csv"}},
+            "Weights" : {"rows" : 512, "columns" : 784, "file_name" : "5CN/W1.csv"},
+            "Bias" : {"rows" : 512, "columns" : 1, "file_name" : "5CN/B1.csv"}},
         "2" : {
-            "Weights" : {"type": "CN", "kernels": 3, "channels": 5, "rows" : 4, "columns" : 4, "pads":[1,1,0,0], "strides": [2,2], "file_name" :"2CN/W2.csv"},
-            "Bias" : {"rows": 3, "columns" : 1, "file_name": "2CN/B2.csv"}},
+            "Weights" : {"rows" : 256, "columns" : 512, "file_name" : "5CN/W2.csv"},
+            "Bias" : {"rows" : 256, "columns" : 1, "file_name" : "5CN/B2.csv"}},
         "3" : {
-            "Weights" : {"rows" : 100, "columns" : 108, "file_name" : "2CN/W3.csv"},
-            "Bias" : {"rows" : 100, "columns" : 1, "file_name" : "2CN/B3.csv"}},
+            "Weights" : {"rows" : 128, "columns" : 256, "file_name" : "5CN/W3.csv"},
+            "Bias" : {"rows" : 128, "columns" : 1, "file_name" : "5CN/B3.csv"}},
         "4" : {
-            "Weights" : {"rows" : 10, "columns" : 100, "file_name" : "2CN/W4.csv"},
-            "Bias" : {"rows" : 10, "columns" : 1, "file_name" : "2CN/B4.csv"}}
+            "Weights" : {"rows" : 64, "columns" : 128, "file_name" : "5CN/W4.csv"},
+            "Bias" : {"rows" : 64, "columns" : 1, "file_name" : "5CN/B4.csv"}},
+        "5" : {
+            "Weights" : {"rows" : 10, "columns" : 64, "file_name" : "5CN/W5.csv"},
+            "Bias" : {"rows" : 10, "columns" : 1, "file_name" : "5CN/B5.csv"}}
     }
 }' > ${BASE_DIR}/config_files/model_helpernode_config.json

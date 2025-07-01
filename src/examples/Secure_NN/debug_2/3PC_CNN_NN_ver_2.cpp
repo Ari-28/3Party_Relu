@@ -318,7 +318,6 @@ class TestMessageHandler : public MOTION::Communication::MessageHandler {
       break;
       case MatrixMulAddOpMessage:
       {
-      std::cerr << "Debug LINE " << std::endl;
       message.erase(message.begin());
       auto i=0;
       for(i=1;i<size_msg;i++)
@@ -535,62 +534,62 @@ class TestMessageHandler : public MOTION::Communication::MessageHandler {
 };
 
 int main(int argc, char* argv[]) {
-  std::cout<<"\n Started the helper node.\n";
+  std::cout << "\n Started the helper node.\n";
   auto options = parse_program_options(argc, argv);
   std::size_t numberOfLayers = options->layers;
   std::vector<int> layer_types = options->layer_types;
   int WriteToFiles = 1;
 
   if (!options.has_value()) {
-    std::cerr<<"No options given.\n";
+    std::cerr << "No options given.\n";
     return EXIT_FAILURE;
   }
   std::shared_ptr<MOTION::Logger> logger;
-  try{
-        std::cout<<"Setting up the connections.";
-        MOTION::Communication::TCPSetupHelper helper(my_id, options->tcp_config);
-        comm_layer = std::make_unique<MOTION::Communication::CommunicationLayer>(
-            my_id, helper.setup_connections());
-    }
-    catch (std::runtime_error& e) {
-      std::cerr << "Error occurred during connection setup: " << e.what() << "\n";
-      return EXIT_FAILURE;
-    }
+  try {
+    std::cout << "Setting up the connections.";
+    MOTION::Communication::TCPSetupHelper helper(my_id, options->tcp_config);
+    comm_layer = std::make_unique<MOTION::Communication::CommunicationLayer>(
+          my_id, helper.setup_connections());
+  } catch (std::runtime_error& e) {
+    std::cerr << "Error occurred during connection setup: " << e.what() << "\n";
+    return EXIT_FAILURE;
+  }
     
-    std::cout<<"Starting the communication layer\n";
-    try{
-      comm_layer->start();
-    }
-    catch (std::runtime_error& e) {
-      std::cerr << "Error occurred while starting the communication: " << e.what() << "\n";
-      return EXIT_FAILURE;
-    }
+  std::cout << "Starting the communication layer\n";
+  try {
+    comm_layer->start();
+  }
+  catch (std::runtime_error& e) {
+    std::cerr << "Error occurred while starting the communication: " << e.what() << "\n";
+    return EXIT_FAILURE;
+  }
 
-    comm_layer->register_fallback_message_handler(
+  comm_layer->register_fallback_message_handler(
         [](auto party_id) { return std::make_shared<TestMessageHandler>(); });
   auto start = high_resolution_clock::now();
   InitializeModuloPrimeOps();
 
+  bool ConvToMatMulFlag = false;
+
   for (int layer_id = 1; layer_id <= numberOfLayers; layer_id++) {
     int layer_type = layer_types[layer_id - 1];
-    if (layer_type == 1) {
-      ConvolutionReluLayer();
 
+    if (layer_type == 1) {
+
+      ConvolutionReluLayer();
       ResetFlags(layer_type);
 
       std::cerr << "Layer " << layer_id << ": Convolution and ReLU layer done." << std::endl;
     } else if (layer_type == 0 && layer_id != numberOfLayers) {
 
       MatrixMultiplicationReluLayer();
-
       ResetFlags(layer_type);
+
       std::cerr << "Layer " << layer_id << ": Matrix multiplication and ReLU layer done." << std::endl;
     } 
     else if (layer_type == 0 && layer_id == numberOfLayers) {
-      MatrixMultiplicationLayer();
 
-      // Reset flags to see if no data is being stored
-      // ResetFlags(layer_type);
+      MatrixMultiplicationLayer();
 
       std::cerr << "Layer " << layer_id << ": Matrix multiplication done." << std::endl;
     }
@@ -615,21 +614,20 @@ int main(int argc, char* argv[]) {
       std::cerr<<"Unable to open the AverageTimeDetails file.\n";
     }
   else
-    {
+  {
     file1 << duration.count();
     file1 << "\n";
-    }
+  }
   file1.close();
 
   std::ofstream file2;
   file2.open(t2, std::ios_base::app);
-  if (!file2.is_open())
-    {
-      std::cerr << "Unable to open the MemoryDetails file.\n";
-    }
+  if (!file2.is_open()) {
+    std::cerr << "Unable to open the MemoryDetails file.\n";
+  }
   else {
-  file2 << "Execution time - " << duration.count() << "msec";
-  file2 << "\n";
+    file2 << "Execution time - " << duration.count() << "msec";
+    file2 << "\n";
   }
   file2.close();
   return EXIT_SUCCESS;

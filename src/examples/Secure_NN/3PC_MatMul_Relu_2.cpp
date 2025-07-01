@@ -388,6 +388,8 @@ class TestMessageHandler : public MOTION::Communication::MessageHandler {
             Conv_c4++;
         }
       }
+      std::cerr << "DEBUG: " << Conv_c1 << " " << w_cols * w_rows + 2 << " " << Conv_c2 << std::endl;
+      std::cerr << "DEBUG: " << Conv_c3 << " " << w_cols + 2 << " " << Conv_c4 << std::endl;
         if(Conv_c1==(w_cols*w_rows+2) && Conv_c2==(w_cols*w_rows+2) && Conv_c3==w_cols+2 && Conv_c4==w_cols+2)
         { 
           operations();

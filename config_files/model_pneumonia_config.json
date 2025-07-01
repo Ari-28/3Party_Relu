@@ -23,7 +23,13 @@
             "Weights" : {"rows" : 128, "columns" : 256, "file_name" : "Pneumonia/W7.csv"}, 
             "Bias" : {"rows" : 128, "columns" : 1, "file_name" : "Pneumonia/B7.csv"}},
         "8" : {
-            "Weights" : {"rows" : 1 , "columns" : 128, "file_name" : "Pneumonia/W8.csv"}, 
-            "Bias" : {"rows" : 1, "columns" : 1, "file_name" : "Pneumonia/B8.csv"}}
+            "Weights" : {"rows" : 256, "columns" : 512, "file_name" : "Pneumonia/W8.csv"}, 
+            "Bias" : {"rows" : 256, "columns" : 1, "file_name" : "Pneumonia/B8.csv"}},
+        "9" : {
+            "Weights" : {"rows" : 128, "columns" : 256, "file_name" : "Pneumonia/W9.csv"}, 
+            "Bias" : {"rows" : 128, "columns" : 1, "file_name" : "Pneumonia/B9.csv"}},
+        "10" : {
+            "Weights" : {"rows" : 1 , "columns" : 128, "file_name" : "Pneumonia/W10.csv"}, 
+            "Bias" : {"rows" : 1, "columns" : 1, "file_name" : "Pneumonia/B10.csv"}}
     }
 }

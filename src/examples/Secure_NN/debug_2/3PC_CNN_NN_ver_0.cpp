@@ -15,8 +15,6 @@ using namespace std::chrono;
 
 namespace po = boost::program_options;
 
-
-
 std::optional<Options> parse_program_options(int argc, char* argv[]) {
   Options options;
   boost::program_options::options_description desc("Allowed options");
@@ -495,7 +493,7 @@ class TestMessageHandler : public MOTION::Communication::MessageHandler
             boost::this_thread::sleep_for(boost::chrono::milliseconds(100));
           }
 
-          std::cerr <<"\nReceived message from Party 1 of size "<< message.size() << "\n"; //should be 258
+          std::cout <<"\nReceived message from Party 1 of size "<< message.size() << "\n"; //should be 258
       
           //to push rows and column 
           for (int i = 0; i < 2; i++) {
@@ -564,7 +562,7 @@ int main(int argc, char* argv[]) {
   int WriteToFiles = 1;
 
   if (!options.has_value()) {
-    std::cerr<<"No options given.\n";
+    std::cerr << "No options given.\n";
     return EXIT_FAILURE;
   }
  
@@ -598,13 +596,9 @@ int main(int argc, char* argv[]) {
   bool ConvToMatMulFlag = false;
 
   for (int layer_id = 1; layer_id <= numberOfLayers; layer_id++) {
-    std::cerr << layer_types[layer_id - 1] << " ";
-  }
-
-  for (int layer_id = 1; layer_id <= numberOfLayers; layer_id++) {
     int layer_type = layer_types[layer_id - 1];
 
-    if (layer_id != 1 && layer_type == 0 && layer_types[layer_id - 2] == 1) {
+    if ((layer_id != 1 && layer_type == 0 && layer_types[layer_id - 2] == 1)) {
       ConvToMatMulFlag = true;
     } else {
       ConvToMatMulFlag = false;
@@ -614,29 +608,26 @@ int main(int argc, char* argv[]) {
     std::vector<std::uint8_t> weightSharesMessage, imageSharesMessage;
 
     if (layer_type == 1) {
+      read_shares(1, layer_id, weightSharesMessage, options.value(), ConvToMatMulFlag);
+      read_shares(2, layer_id, imageSharesMessage, options.value(), ConvToMatMulFlag);
 
-        read_shares(1, layer_id, weightSharesMessage, options.value(), ConvToMatMulFlag);
-        read_shares(2, layer_id, imageSharesMessage, options.value(), ConvToMatMulFlag);
+      std::cout << "Shares succesfully read." << std::endl;
 
-        std::cout << "Shares succesfully read." << std::endl;
+      ConvolutionReluLayer(weightSharesMessage, imageSharesMessage, layer_id);
 
-        ConvolutionReluLayer(weightSharesMessage, imageSharesMessage, layer_id);
-        std::cerr << "DEBUG: entered the convolution block." << std::endl;
+      weightSharesMessage.clear();
+      imageSharesMessage.clear();
 
-        weightSharesMessage.clear();
-        imageSharesMessage.clear();
+      // Reset flags to see if no data is being stored
+      ResetFlags(layer_type);
 
-        // Reset flags to see if no data is being stored
-        ResetFlags(layer_type);
-
-        std::cerr << "Layer " << layer_id << ": Convolution and ReLU done." << std::endl;
+      std::cerr << "Layer " << layer_id << ": Convolution and ReLU done." << std::endl;
     } else if (layer_type == 0 && layer_id != numberOfLayers) {
       read_shares(1, layer_id, weightSharesMessage, options.value(), ConvToMatMulFlag);
       read_shares(2, layer_id, imageSharesMessage, options.value(), ConvToMatMulFlag);
 
       std::cout << "Shares successfully read." << std::endl;
 
-      std::cerr << "Debug: Matrix Multiplication Relu Layer. " << std::endl;
       MatrixMultiplicationReluLayer(weightSharesMessage, imageSharesMessage, layer_id);
 
       weightSharesMessage.clear();
@@ -658,14 +649,9 @@ int main(int argc, char* argv[]) {
       weightSharesMessage.clear();
       imageSharesMessage.clear();
 
-      // Reset flags to see if no data is being stored
-      // ResetFlags(layer_type);
-
-
       std::cerr << "Layer " << layer_id << ": Matrix multiplication done." << std::endl;
     }
   }
-
 
   // Write the ReLU shares computed at Party 0 to ReLU output file.
   std::ofstream ReluOutputFile;
@@ -722,8 +708,6 @@ int main(int argc, char* argv[]) {
     ReluOutputFile << output_chnls * output_rows * output_columns << " " << 1 << std::endl;
     ReluOutputFile.close();
   }
-
-
 
   comm_layer->shutdown();
   

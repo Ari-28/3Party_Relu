@@ -1202,8 +1202,8 @@ int ReLU(std::vector<std::uint64_t>& a_L_1, std::vector<std::uint64_t>& a_Relu_1
   a_DRelu_1.insert(a_DRelu_1.begin(), cols);
   a_DRelu_1.insert(a_DRelu_1.begin(), rows);
 
-  std::cerr << a_L_1[0] << " " << a_L_1[1] << " a_L_1 dimensions " << std::endl;
-  std::cerr << a_DRelu_1[0] << " " << a_DRelu_1[1] << " a_DRelu_1 dimensions " << std::endl;
+  std::cout << a_L_1[0] << " " << a_L_1[1] << " a_L_1 dimensions " << std::endl;
+  std::cout << a_DRelu_1[0] << " " << a_DRelu_1[1] << " a_DRelu_1 dimensions " << std::endl;
 
   // Step 0
   // Send acknowledgement message to helpernode after completion of DRelu
@@ -1242,12 +1242,8 @@ int ReLU(std::vector<std::uint64_t>& a_L_1, std::vector<std::uint64_t>& a_Relu_1
   ConvertVetorIntoMessage(a_DRelu_ABY_private, a_DRelu_msg_Private_Shares, (std::uint8_t)Relu_Y_PrivateShares);
 
   boost::this_thread::sleep_for(boost::chrono::milliseconds(400));
-
-  std::cerr << "a_L_ABY_private.size(): " << a_L_ABY_private.size() << " " << a_L_ABY_private[0] << " " << a_L_ABY_private[1] << std::endl;
-  std::cerr << "a_DRelu_ABY_private.size(): " << a_DRelu_ABY_private.size() << " " << a_DRelu_ABY_private[0] << " " << a_DRelu_ABY_private[1] << std::endl;
   
    //%%%%% Sending X_ABY shares from my party to other party nad woaut for message from other party 
-  std::cerr << "Sending Public shares message to Server : " << 1-my_id << " Message size : "<< a_L_msg_ABY_shares.size() << "\n";
   try{
       comm_layer->send_message(1-my_id, a_L_msg_ABY_shares);
     }
@@ -1263,12 +1259,10 @@ int ReLU(std::vector<std::uint64_t>& a_L_1, std::vector<std::uint64_t>& a_Relu_1
       boost::this_thread::sleep_for(boost::chrono::milliseconds(200));
     }
 
-  std::cerr << "Relu_x_temp_vec.size(): " << Relu_x_temp_vec.size() << " " << Relu_x_temp_vec[0] << " " << Relu_x_temp_vec[1] << std::endl;
   ParallelAddition(a_L_ABY_public, Relu_x_temp_vec, a_L_ABY_public, 2);
 
 
   //%%%%% Sending Y_ABY shares from my party to other party nad woaut for message from other party 
-  std::cerr << "Sending Y Public shares message to Server : " << 1-my_id << " Message size : "<< a_DRelu_msg_ABY_shares.size() << "\n";
   try{
       comm_layer->send_message(1-my_id, a_DRelu_msg_ABY_shares);
     }
@@ -1663,7 +1657,6 @@ void read_shares(int choice, int layer_id, std::vector<uint8_t>&message, const O
     }
     file.close();
 
-    std::cout << "Debug 1" << std::endl;
     file.open(bpath);
     if (!file) {
       std::cerr << " Error in opening bias file\n";
@@ -1681,8 +1674,6 @@ void read_shares(int choice, int layer_id, std::vector<uint8_t>&message, const O
       std::cerr << "Bias shares file doesn't contain rows and columns." << std::endl;
       exit(1);
     }
-       
-    std::cout << "Debug 2" << std::endl; 
 
     auto j = 0;
     bpublic.push_back(row);
@@ -1709,8 +1700,6 @@ void read_shares(int choice, int layer_id, std::vector<uint8_t>&message, const O
       j++;
     }
 
-    std::cout << "Debug 3" << std::endl;
-
     if (j == row * col) {
       std::uint64_t num;
       file >> num;
@@ -1720,7 +1709,6 @@ void read_shares(int choice, int layer_id, std::vector<uint8_t>&message, const O
       }
     }
     file.close();  
-    std::cout << "Debug 4" << std::endl;
   }
   else if (choice == 2 && layer_type == 1) {
     if (layer_id == 1) {
@@ -1843,10 +1831,10 @@ void read_shares(int choice, int layer_id, std::vector<uint8_t>&message, const O
         exit(1);
       }
   
-      std::uint64_t row, col;
+      std::uint64_t channel, row, col;
       try {
-        file >> row >> col;
-        std::cerr << row << " " << col << " " << std::endl;
+        file >> channel >> row >> col;
+        std::cerr << channel << " " << row << " " << col << " " << std::endl;
       }
       catch (std::ifstream::failure e) {
         std::cerr << "Error while reading rows and columns from input shares file.\n";
@@ -1858,29 +1846,18 @@ void read_shares(int choice, int layer_id, std::vector<uint8_t>&message, const O
         exit(1);
       }
 
-      try {
-        file >> row >> col;
-        std::cerr << row << " " << col << " " << std::endl;
-      }
-      catch (std::ifstream::failure e) {
-        std::cerr << "Error while reading rows and columns from input shares file.\n";
-        exit(1);
-      }
-  
-      if (file.eof()) {
-        std::cerr << "Input shares file doesn't contain rows and columns." << std::endl;
-        exit(1);
-      }
-  
+      std::uint64_t imageRows = channel * row * col;
+      std::uint64_t imageCols = 1;
+
       auto k = 0;
-      adduint64(row, message);
-      adduint64(col, message);
-      xpublic.push_back(row);
-      xpublic.push_back(col);
-      xsecret.push_back(row);
-      xsecret.push_back(col);
+      adduint64(imageRows, message);
+      adduint64(imageCols, message);
+      xpublic.push_back(imageRows);
+      xpublic.push_back(imageCols);
+      xsecret.push_back(imageRows);
+      xsecret.push_back(imageCols);
   
-      while (k < row * col) {
+      while (k < imageRows * imageCols) {
         std::uint64_t public_share, secret_share;
         try {
           file >> public_share;
@@ -1899,7 +1876,7 @@ void read_shares(int choice, int layer_id, std::vector<uint8_t>&message, const O
         adduint64(secret_share, message);
         k++;
       }
-      if (k == row * col) {
+      if (k == imageRows * imageCols) {
         std::uint64_t num;
         file >> num;
         if (!file.eof()) {
@@ -2355,6 +2332,7 @@ int MatrixMultAddition(std::vector<std::uint8_t>& message_w, std::vector<std::ui
   try {
     message_w.insert(message_w.begin(), (std::uint8_t)MatrixMulAddOpMessage);
     comm_layer->send_message(helpernode_id, message_w);
+    boost::this_thread::sleep_for(boost::chrono::milliseconds(100));
   }
   catch (std::exception & e) {
     std::cout << "Error sending weights." << e.what() << std::endl;
@@ -2363,10 +2341,9 @@ int MatrixMultAddition(std::vector<std::uint8_t>& message_w, std::vector<std::ui
 
   std::cout << "Sending image shares to the helper node." << std::endl;
   try {
-    std::cerr << "message_i.size(): " << message_i.size() << " " << message_i[0] << " " << message_i[1] << std::endl;
-
     message_i.insert(message_i.begin(), (std::uint8_t)MatrixMulAddOpMessage);
     comm_layer->send_message(helpernode_id, message_i);
+    boost::this_thread::sleep_for(boost::chrono::milliseconds(100));
   }
   catch (std::exception & e) {
     std::cout << "Error sending image shares." << e.what() << std::endl;

@@ -239,129 +239,94 @@ def call():
         'sans 18 bold'), height=2, width=20)
     Label_90.grid(row=0, column=0, columnspan=3, sticky='w')
     text_00 = "Configuration"
-    text_10 = "RAM(GB)\nLAN"
-    text2_10 = "RAM(GB)\nWAN"
-    text_20 = "Time(Sec)\nLAN"
-    text2_20 = "Time(Sec)\nWAN"
-    text1_30 = "No. of Mult Per Split X 10³ "
+    text_10 = "RAM (GB)"
+    text_20 = "Execution Time\n(Sec)"
     Label_00 = Label(canvas_3, text=text_00, highlightthickness=1,
                      highlightbackground="black", font=('sans 16 normal'), height=2, width=18)
     Label_00.grid(row=1, column=0)
     Label_10 = Label(canvas_3, text=text_10, highlightthickness=1,
                      highlightbackground="black", font=('sans 16 normal'), height=2, width=10)
     Label_10.grid(row=1, column=1)
-    Label_20 = Label(canvas_3, text=text2_10, highlightthickness=1,
-                     highlightbackground="black", font=('sans 16 normal'), height=2, width=10)
-    Label_20.grid(row=1, column=2)
     Label_30 = Label(canvas_3, text=text_20, highlightthickness=1,
-                     highlightbackground="black", font=('sans 16 normal'), height=2, width=10)
-    Label_30.grid(row=1, column=3)
-    Label_40 = Label(canvas_3, text=text2_20, highlightthickness=1,
-                     highlightbackground="black", font=('sans 16 normal'), height=2, width=10)
-    Label_40.grid(row=1, column=4)
-    Label_40 = Label(canvas_3, text=text1_30, highlightthickness=1,
-                     highlightbackground="black", font=('sans 16 normal'), height=2, width=29)
-    Label_40.grid(row=1, column=5)
+                     highlightbackground="black", font=('sans 16 normal'), height=2, width=15)
+    Label_30.grid(row=1, column=2)
 
-    text_01 = "CNN_split:(1,1,1,1)\nNN_split:(1,1)"
-    text_11 = "-"
-    text_21 = "-"
-    text1_41 = "-"
-    text1_51 = "-"
-    text1_31 = "878 | 5760 | 3276 | 1327 | 1179 | 5"
-    Label_01 = Label(canvas_3, text=text_01, highlightthickness=1,
-                     highlightbackground="black", font=('sans 16 normal'), height=2, width=18)
-    Label_01.grid(row=2, column=0)
-    Label_11 = Label(canvas_3, text=text_11, highlightthickness=1,
-                     highlightbackground="black", font=('sans 16 normal'), height=2, width=10)
-    Label_11.grid(row=2, column=1)
-    Label_21 = Label(canvas_3, text=text_21, highlightthickness=1,
-                     highlightbackground="black", font=('sans 16 normal'), height=2, width=10)
-    Label_21.grid(row=2, column=2)
-    Label_31 = Label(canvas_3, text=text1_41, highlightthickness=1,
-                     highlightbackground="black", font=('sans 16 normal'), height=2, width=10)
-    Label_31.grid(row=2, column=3)
-    Label_41 = Label(canvas_3, text=text1_51, highlightthickness=1,
-                     highlightbackground="black", font=('sans 16 normal'), height=2, width=10)
-    Label_41.grid(row=2, column=4)
-    Label_51 = Label(canvas_3, text=text1_31, highlightthickness=1,
-                     highlightbackground="black", font=('sans 16 normal'), height=2, width=29)
-    Label_51.grid(row=2, column=5)
+    # text_01 = "CNN_split:(1,1,1,1)\nNN_split:(1,1)"
+    # text_11 = "-"
+    # text_21 = "-"
+    # text1_41 = "-"
+    # text1_51 = "-"
+    # text1_31 = "878 | 5760 | 3276 | 1327 | 1179 | 5"
+    # Label_01 = Label(canvas_3, text=text_01, highlightthickness=1,
+    #                  highlightbackground="black", font=('sans 16 normal'), height=2, width=18)
+    # Label_01.grid(row=2, column=0)
+    # Label_11 = Label(canvas_3, text=text_11, highlightthickness=1,
+    #                  highlightbackground="black", font=('sans 16 normal'), height=2, width=10)
+    # Label_11.grid(row=2, column=1)
+    # Label_21 = Label(canvas_3, text=text_21, highlightthickness=1,
+    #                  highlightbackground="black", font=('sans 16 normal'), height=2, width=10)
+    # Label_21.grid(row=2, column=2)
+    # Label_31 = Label(canvas_3, text=text1_41, highlightthickness=1,
+    #                  highlightbackground="black", font=('sans 16 normal'), height=2, width=10)
+    # Label_31.grid(row=2, column=3)
+    # Label_41 = Label(canvas_3, text=text1_51, highlightthickness=1,
+    #                  highlightbackground="black", font=('sans 16 normal'), height=2, width=10)
+    # Label_41.grid(row=2, column=4)
+    # Label_51 = Label(canvas_3, text=text1_31, highlightthickness=1,
+    #                  highlightbackground="black", font=('sans 16 normal'), height=2, width=29)
+    # Label_51.grid(row=2, column=5)
 
-    text_02 = "CNN_split:(32,32,64,64)\nNN_split:(256,5)"
-    text_12 = "0.549"
-    text_22 = "0.548"
-    text1_42 = "1835"
-    text1_52 = "1097"
-    text1_32 = "27.6 | 180 | 51.2 | 20.7 | 4.6 | 1"
-    Label_02 = Label(canvas_3, text=text_02, highlightthickness=1,
-                     highlightbackground="black", font=('sans 16 normal'), height=2, width=18)
-    Label_02.grid(row=3, column=0)
-    Label_12 = Label(canvas_3, text=text_12, highlightthickness=1,
-                     highlightbackground="black", font=('sans 16 normal'), height=2, width=10)
-    Label_12.grid(row=3, column=1)
-    Label_22 = Label(canvas_3, text=text_22, highlightthickness=1,
-                     highlightbackground="black", font=('sans 16 normal'), height=2, width=10)
-    Label_22.grid(row=3, column=2)
-    Label_32 = Label(canvas_3, text=text1_42, highlightthickness=1,
-                     highlightbackground="black", font=('sans 16 normal'), height=2, width=10)
-    Label_32.grid(row=3, column=3)
-    Label_42 = Label(canvas_3, text=text1_52, highlightthickness=1,
-                     highlightbackground="black", font=('sans 16 normal'), height=2, width=10)
-    Label_42.grid(row=3, column=4)
-    Label_52 = Label(canvas_3, text=text1_32, highlightthickness=1,
-                     highlightbackground="black", font=('sans 16 normal'), height=2, width=29)
-    Label_52.grid(row=3, column=5)
+    # text_01 = "CNN_split:(32,32,64,64)\nNN_split:(256,5)"
+    # text_11 = "0.549"
+    # text1_41 = "1835"
+    # Label_01 = Label(canvas_3, text=text_01, highlightthickness=1,
+    #                  highlightbackground="black", font=('sans 16 normal'), height=2, width=18)
+    # Label_01.grid(row=2, column=0)
+    # Label_11 = Label(canvas_3, text=text_11, highlightthickness=1,
+    #                  highlightbackground="black", font=('sans 16 normal'), height=2, width=10)
+    # Label_11.grid(row=2, column=1)
+    # Label_31 = Label(canvas_3, text=text1_41, highlightthickness=1,
+    #                  highlightbackground="black", font=('sans 16 normal'), height=2, width=15)
+    # Label_31.grid(row=2, column=2)
 
     text_03 = "CNN_split:(32,16,64,64)\nNN_split:(256,5)"
     text_13 = "1.078"
-    text_23 = "1.077"
     text1_43 = "1416"
-    text1_53 = "1118"
-    text1_33 = "27.6 | 360 | 3276 | 1327 | 4.6 | 1"
     Label_03 = Label(canvas_3, text=text_03, highlightthickness=1,
                      highlightbackground="black", font=('sans 16 normal'), height=2, width=18)
-    Label_03.grid(row=4, column=0)
+    Label_03.grid(row=2, column=0)
     Label_13 = Label(canvas_3, text=text_13, highlightthickness=1,
                      highlightbackground="black", font=('sans 16 normal'), height=2, width=10)
-    Label_13.grid(row=4, column=1)
-    Label_23 = Label(canvas_3, text=text_23, highlightthickness=1,
-                     highlightbackground="black", font=('sans 16 normal'), height=2, width=10)
-    Label_23.grid(row=4, column=2)
+    Label_13.grid(row=2, column=1)
     Label_33 = Label(canvas_3, text=text1_43, highlightthickness=1,
-                     highlightbackground="black", font=('sans 16 normal'), height=2, width=10)
-    Label_33.grid(row=4, column=3)
-    Label_43 = Label(canvas_3, text=text1_53, highlightthickness=1,
-                     highlightbackground="black", font=('sans 16 normal'), height=2, width=10)
-    Label_43.grid(row=4, column=4)
-    Label_53 = Label(canvas_3, text=text1_33, highlightthickness=1,
-                     highlightbackground="black", font=('sans 16 normal'), height=2, width=29)
-    Label_53.grid(row=4, column=5)
+                     highlightbackground="black", font=('sans 16 normal'), height=2, width=15)
+    Label_33.grid(row=2, column=2)
 
-    text_04 = "Helper Node"
+    text_04 = "Helper Node\n(Conv and Mult)"
     text_14 = "0.725"
-    text_24 = "0.725"
     text1_44 = "82"
-    text1_54 = "82"
-    text1_34 = "878 | 5760 | 3276 | 1327 | 1179 | 5"
     Label_04 = Label(canvas_3, text=text_04, highlightthickness=1,
                      highlightbackground="black", font=('sans 16 normal'), height=2, width=18)
-    Label_04.grid(row=5, column=0)
+    Label_04.grid(row=3, column=0)
     Label_14 = Label(canvas_3, text=text_14, highlightthickness=1,
                      highlightbackground="black", font=('sans 16 normal'), height=2, width=10)
-    Label_14.grid(row=5, column=1)
-    Label_24 = Label(canvas_3, text=text_24, highlightthickness=1,
-                     highlightbackground="black", font=('sans 16 normal'), height=2, width=10)
-    Label_24.grid(row=5, column=2)
+    Label_14.grid(row=3, column=1)
     Label_34 = Label(canvas_3, text=text1_44, highlightthickness=1,
+                     highlightbackground="black", font=('sans 16 normal'), height=2, width=15)
+    Label_34.grid(row=3, column=2)
+
+    text_05 = "Helper Node\n(Conv, Mult and ReLU)"
+    text_15 = "0.19"
+    text1_45 = "51"
+    Label_05 = Label(canvas_3, text=text_05, highlightthickness=1,
+                     highlightbackground="black", font=('sans 16 normal'), height=2, width=18)
+    Label_05.grid(row=4, column=0)
+    Label_15 = Label(canvas_3, text=text_15, highlightthickness=1,
                      highlightbackground="black", font=('sans 16 normal'), height=2, width=10)
-    Label_34.grid(row=5, column=3)
-    Label_44 = Label(canvas_3, text=text1_54, highlightthickness=1,
-                     highlightbackground="black", font=('sans 16 normal'), height=2, width=10)
-    Label_44.grid(row=5, column=4)
-    Label_44 = Label(canvas_3, text=text1_34, highlightthickness=1,
-                     highlightbackground="black", font=('sans 16 normal'), height=2, width=29)
-    Label_44.grid(row=5, column=5)
+    Label_15.grid(row=4, column=1)
+    Label_35 = Label(canvas_3, text=text1_45, highlightthickness=1,
+                     highlightbackground="black", font=('sans 16 normal'), height=2, width=15)
+    Label_35.grid(row=4, column=2)
 
     # text_06 = "H3:(1,2,-,-)"
     # text_16 = "0.035"
